@@ -4,7 +4,8 @@ function pb = berlagepulse(f0,tinput,A,n,phi0)
 % Modified by Apulina Priska
 % A = initial amplitude (a.u.)
 % alpha = exponential decay factor (non-negative and real)
-% n = time exponent (non-negative and real)
+% n = time exponent (non-negative and real).
+% Note that n should be bigger than 1. 
 % f0 = dominant frequency (Hz)
 % phi0 = initial phase angle (radians) [-pi/2,+pi/2]
 % OUTPUT:
@@ -21,10 +22,4 @@ amt_t=size_t(:,2);
 %A is amplitude, choose so the maximum near 1
     fh=heaviside(t);
     t2=t.^2;
-    p=A*fh.*t2.*exp(-3*(f_MHz)*(t)).*cos((2*pi()*f_MHz*t)+phi0);
-%normalise the wavelet
-for i=1:amt_t
-pb (i)= p(i) - min(abs(p(:)));
-pb (i)= pb(i)./max(abs(p(:)));
-end
-%normA = normA ./ max(normA(:))
+    p=A*fh.*t2.*exp(-n*(f_MHz)*(t)).*cos((2*pi()*f_MHz*t)+phi0);
